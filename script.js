@@ -59,19 +59,28 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Form submission handling
     const contactForm = document.querySelector('#contact form');
-    document.getElementById('contactForm').addEventListener('submit', function (e) {
-        const name = document.getElementById('name').value.trim();
-        const email = document.getElementById('email').value.trim();
-        const message = document.getElementById('message').value.trim();
-
-        if (!name || !email || !message) {
-            alert('Please fill in all fields');
-            e.preventDefault(); // prevent form submission
-        }
-          alert(`Thank you for your message, ${name}! I will get back to you soon at ${email}.`);
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const name = this.querySelector('input[type="text"]').value;
+            const email = this.querySelector('input[type="email"]').value;
+            const message = this.querySelector('textarea').value;
+            
+            // Simple validation
+            if (!name || !email || !message) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            // Here you would typically send the data to a server
+            // For demo purposes, we'll just show a success message
+            alert(`Thank you for your message, ${name}! I will get back to you soon at ${email}.`);
             this.reset();
-    });
-
+        });
+    }
+    
     // Initialize active nav link
     updateActiveNavLink();
     
@@ -102,6 +111,28 @@ document.addEventListener('DOMContentLoaded', function() {
             this.style.boxShadow = '';
         });
     });
+    
+    // Skill cards hover effects
+    const skillCards = document.querySelectorAll('.skill-card');
+    skillCards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-5px)';
+            this.style.boxShadow = '0 10px 25px rgba(0, 0, 0, 0.15)';
+        });
+        
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = '';
+            this.style.boxShadow = '';
+        });
+    });
+    
+    // Cloud icon animation
+    const cloudIcon = document.querySelector('.cloud-icon');
+    if (cloudIcon) {
+        setInterval(() => {
+            cloudIcon.style.transform = `translateY(${Math.sin(Date.now() / 1000) * 5}px)`;
+        }, 50);
+    }
 });
 
 // Function to update active nav link
